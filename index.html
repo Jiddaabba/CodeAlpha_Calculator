@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101322">
+  <meta name="description" content="Jidda's Calculator — a fast, private scientific calculator built with HTML, CSS and JavaScript.">
+  <title>Jidda's Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="calculator" aria-label="Jidda's Calculator">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Jidda's Calculator home">
+          <span class="brand-mark">J<span>.</span></span>
+          <span><strong>Jidda's</strong><small>SMART CALCULATOR</small></span>
+        </a>
+        <div class="top-actions">
+          <button class="icon-btn" id="soundBtn" title="Toggle sound" aria-label="Toggle sound">♪</button>
+          <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">☀</button>
+          <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Open settings">⚙</button>
+        </div>
+      </header>
+
+      <nav class="mode-row" aria-label="Calculator mode">
+        <button class="mode active" data-mode="basic" aria-pressed="true">Standard</button>
+        <button class="mode" data-mode="scientific" aria-pressed="false">Scientific</button>
+        <span class="mode-spacer"></span>
+        <button class="text-btn" id="angleBtn" title="Change angle unit">DEG</button>
+      </nav>
+
+      <section class="screen" aria-label="Calculator display">
+        <div class="screen-meta">
+          <span id="memoryIndicator" class="memory-indicator" hidden>M</span>
+          <span id="statusText">Ready when you are</span>
+          <button class="tiny-btn" id="undoBtn" title="Undo last edit" aria-label="Undo last edit" disabled>↶</button>
+        </div>
+        <div id="expression" class="expression" aria-label="Expression" role="status">0</div>
+        <output id="result" class="result" aria-live="polite" aria-atomic="true">0</output>
+        <div class="screen-tools">
+          <button class="tiny-btn" id="copyBtn">Copy result</button>
+          <button class="tiny-btn" id="shareBtn">Share</button>
+          <button class="tiny-btn" id="ansBtn">ANS</button>
+        </div>
+      </section>
+
+      <section id="scientificKeys" class="scientific-keys" aria-label="Scientific functions" hidden>
+        <button data-insert="sin(">sin</button><button data-insert="cos(">cos</button>
+        <button data-insert="tan(">tan</button><button data-insert="asin(">sin⁻¹</button>
+        <button data-insert="acos(">cos⁻¹</button><button data-insert="atan(">tan⁻¹</button>
+        <button data-insert="log(">log</button><button data-insert="ln(">ln</button>
+        <button data-insert="sqrt(">√</button><button data-insert="^2">x²</button>
+        <button data-insert="^">xʸ</button><button data-insert="!">n!</button>
+        <button data-insert="π">π</button><button data-insert="e">e</button>
+        <button data-insert="(">(</button><button data-insert=")">)</button>
+      </section>
+
+      <section class="memory-row" aria-label="Memory controls">
+        <button data-action="memory-clear">MC</button>
+        <button data-action="memory-recall">MR</button>
+        <button data-action="memory-add">M+</button>
+        <button data-action="memory-subtract">M−</button>
+        <button data-action="history-toggle">History <span id="historyCount">0</span></button>
+      </section>
+
+      <section class="keypad" aria-label="Calculator keypad">
+        <button class="utility" data-action="clear">AC</button>
+        <button class="utility" data-action="delete">DEL</button>
+        <button class="utility" data-insert="%">%</button>
+        <button class="operator" data-insert="/">÷</button>
+
+        <button data-insert="7">7</button><button data-insert="8">8</button>
+        <button data-insert="9">9</button><button class="operator" data-insert="*">×</button>
+
+        <button data-insert="4">4</button><button data-insert="5">5</button>
+        <button data-insert="6">6</button><button class="operator" data-insert="-">−</button>
+
+        <button data-insert="1">1</button><button data-insert="2">2</button>
+        <button data-insert="3">3</button><button class="operator" data-insert="+">+</button>
+
+        <button class="utility" data-action="sign">+/−</button>
+        <button data-insert="0">0</button><button data-insert=".">.</button>
+        <button class="equals" data-action="equals">=</button>
+      </section>
+
+      <section id="historyPanel" class="history-panel" hidden aria-label="Calculation history">
+        <div class="panel-heading"><div><h2>Recent calculations</h2><p>Your history stays on this device.</p></div>
+          <button class="text-btn danger" id="clearHistoryBtn">Clear</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section id="settingsPanel" class="settings-panel" hidden aria-label="Calculator settings">
+        <div class="panel-heading"><div><h2>Preferences</h2><p>Make the calculator yours.</p></div>
+          <button class="text-btn" id="closeSettingsBtn">Done</button>
+        </div>
+        <label class="setting-line">Angle unit <select id="angleSelect"><option value="DEG">Degrees</option><option value="RAD">Radians</option></select></label>
+        <label class="setting-line">Result precision <select id="precisionSelect"><option value="6">6 significant digits</option><option value="10">10 significant digits</option><option value="12">12 significant digits</option><option value="15">15 significant digits</option></select></label>
+        <label class="setting-line">Haptic feedback <input id="hapticToggle" type="checkbox"></label>
+        <label class="setting-line">Show thousands separators <input id="groupingToggle" type="checkbox" checked></label>
+        <button id="resetSettingsBtn" class="reset-btn">Reset preferences</button>
+      </section>
+
+      <footer class="footer">
+        <span>HTML · CSS · JavaScript</span>
+        <span>Private by design <i aria-hidden="true">●</i></span>
+      </footer>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </section>
+    <aside class="side-note">
+      <span class="eyebrow">A smarter way to calculate</span>
+      <h1>Numbers, made <em>simple.</em></h1>
+      <p>A focused scientific calculator with helpful tools, local history, and no tracking or external libraries.</p>
+      <div class="feature-pills"><span>Scientific</span><span>Private</span><span>Responsive</span><span>Keyboard-ready</span></div>
+      <p class="keyboard-help"><kbd>Enter</kbd> calculate <kbd>Esc</kbd> clear <kbd>⌫</kbd> delete</p>
+    </aside>
+  </main>
+</body>
+</html>
